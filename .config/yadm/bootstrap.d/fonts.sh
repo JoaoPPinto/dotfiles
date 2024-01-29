@@ -14,12 +14,16 @@ function download_font() {
 
 function download_font_family() {
   local family="$1"
-  local fonts="$@"
-  for font in ${fonts[@]}; do
-    download_font "${family}" "${font}-BoldItalic.ttf"
-    download_font "${family}" "${font}-Bold.ttf"
-    download_font "${family}" "${font}-Italic.ttf"
-    download_font "${family}" "${font}-Regular.ttf"
+  shift
+  local fonts=( $@ )
+  local font_weights=("Bold" "BoldItalic" "Italic" "Regular")
+  for font in "${fonts[@]}"; do
+    for font_weight in "${font_weights[@]}"; do
+      if [[ ! -f "${FONT_DIR}/${font}-${font_weight}.ttf" ]]; then
+        printf "Font ${font}-${font_weight} not found. Downloading...\n"
+        download_font "${family}" "${font}-${font_weight}.ttf"
+      fi
+    done
   done
 }
 
