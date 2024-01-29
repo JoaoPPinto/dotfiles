@@ -2,11 +2,19 @@
     "layer": "bottom", // Waybar at top layer
     "position": "top",
     "height": 25, // Waybar height (to be removed for auto height)
+{% if yadm.hostname == "desktop" %}
     "output": "DP-2",
+{% else %}
+    "output": "eDP-1",
+{% endif %}
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
+{% if yadm.hostname == "desktop" %}
     "modules-right": ["idle_inhibitor", "cpu", "memory", "pulseaudio", "tray"],
+{% else %}
+    "modules-right": ["idle_inhibitor", "cpu", "memory", "pulseaudio", "battery", "tray"],
+{% endif %}
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
