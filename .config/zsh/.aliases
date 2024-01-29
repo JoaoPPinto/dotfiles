@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#color support
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+#ls
+alias ls='ls -hF --color=auto --group-directories-first'
+alias la='ls -A'
+alias ll='ls -l'
+alias lla='ls -al'
+alias lr='ls -R'
+
+#program aliases
+alias vim='nvim'
+alias code='codium'
+
+#set more common term for ssh sessions
+alias ssh='TERM=xterm-256color ssh'
