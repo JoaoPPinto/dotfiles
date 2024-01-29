@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Save this file as ~/.config/yadm/bootstrap and make it executable. It will
+# execute all executable files (excluding templates and editor backups) in the
+# ~/.config/yadm/bootstrap.d directory when run.
+
+set -eu
+
+# Directory to look for bootstrap executables in
+declare -rx YADM_DIR="${HOME}/.config/yadm"
+declare -rx BOOTSTRAP_DIR="${YADM_DIR}/bootstrap.d"
+declare -rx PACKAGE_DIR="${YADM_DIR}/package_lists"
+
+if [[ ! -d "$BOOTSTRAP_DIR" ]]; then
+    echo "Error: bootstrap directory '$BOOTSTRAP_DIR' not found" >&2
+    exit 1
+fi
+
+find -L "$BOOTSTRAP_DIR" -type f | sort | while IFS= read -r bootstrap; do
+    if [[ -x "$bootstrap" && ! "$bootstrap" =~ "##" && ! "$bootstrap" =~ "~$" ]]; then
+        if ! "$bootstrap"; then
+            echo "Error: bootstrap '$bootstrap' failed" >&2
+            exit 1
+        fi
+    fi
+done
+
