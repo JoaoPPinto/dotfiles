@@ -1,0 +1,4 @@
+profile casa {
+    output "LG Electronics LG ULTRAGEAR 012NTEP9F036" mode 2560x1440@59.951Hz position 1440,560
+    output "Dell Inc. DELL S2721DS 7HRKQ43" mode 2560x1440@59.951Hz position 0,0 transform 90
+}
