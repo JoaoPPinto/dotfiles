@@ -16,6 +16,16 @@ if [[ ! -d "$BOOTSTRAP_DIR" ]]; then
     exit 1
 fi
 
+# set zsh as shell
+if ! echo "${SHELL}" | grep -q '/zsh'; then
+	havecmd zsh || sudo pacman -S zsh
+	sudo chsh -s "$(command -v zsh)" "$(whoami)"
+	abort "Restart shell so that zsh environment is setup. Then re-run 'yadm bootstrap'"
+else
+	echo "zsh is already set as your default shell"
+fi
+
+# Run all bootstrap scripts in bootstrap.d
 find -L "$BOOTSTRAP_DIR" -type f | sort | while IFS= read -r bootstrap; do
     if [[ -x "$bootstrap" && ! "$bootstrap" =~ "##" && ! "$bootstrap" =~ "~$" ]]; then
         if ! "$bootstrap"; then
