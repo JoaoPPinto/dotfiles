@@ -19,3 +19,8 @@ download_catppuccin_theme "Catppuccin-Mocha-Standard-Teal-Dark"
 download_catppuccin_theme "Catppuccin-Mocha-Standard-Peach-Dark"
 download_catppuccin_theme "Catppuccin-Mocha-Standard-Yellow-Dark"
 download_catppuccin_theme "Catppuccin-Mocha-Standard-Lavender-Dark"
+
+[[ $( rpm -q numix-icon-theme ) ]] || dnf install --quiet --assume-yes numix-icon-theme
+
+gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-Blue-Dark"
+gsettings set org.gnome.desktop.interface icon-theme "Numix"
