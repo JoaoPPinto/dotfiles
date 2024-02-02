@@ -1,5 +1,15 @@
 #!/bin/bash
 
+set -e
+
+# ensure rpm fusion is installed
+printf "Ensure RPMFusion repo is installed"
+if [ $EUID != 0 ]; then
+  sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+else
+  dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+fi
+
 
 # list all packages that need to be installed
 printf "Checking ${PACKAGE_DIR}/fedora_packages.txt for packages to install...\n"
