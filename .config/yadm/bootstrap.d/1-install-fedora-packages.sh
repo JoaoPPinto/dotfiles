@@ -2,12 +2,14 @@
 
 set -e
 
+FLATHUB_REPO="https://dl.flathub.org/repo/flathub.flatpakrepo"
+
 # ensure rpm fusion is installed
-printf "Ensure RPMFusion repo is installed"
+printf "Ensure RPMFusion repo is installed\n"
 if [ $EUID != 0 ]; then
-  sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  sudo dnf install --assumeyes --quiet  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 else
-  dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  dnf install --assumeyes --quiet https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 fi
 
 
@@ -28,8 +30,22 @@ done
 if [[ ${#packages_to_install[@]} -gt 0 ]]; then
 	printf "Installing packages: %s\n" "${packages_to_install[*]}"
 	if [ $EUID != 0 ]; then
-	  sudo dnf install ${packages_to_install[*]}
+	  sudo dnf install --assumeyes --quiet ${packages_to_install[*]}
         else
           dnf install ${packages_to_install[@]}
 	fi
 fi
+
+# Ensure Flatpak is installed
+if [[ ! $( rpm -q flatpak > /dev/null ) ]]; then
+  printf "Installing Flatpak\n"
+  if [ $EUID != 0 ]; then
+    sudo dnf install --assumeyes --quiet flatpak
+  else
+    dnf install --assumeyes --quiet flatpak
+  fi
+fi
+
+# Set Flathub repo
+printf "Setting Flathub repo\n"
+flatpak remote-add --if-not-exists flathub ${FLATHUB_REPO}

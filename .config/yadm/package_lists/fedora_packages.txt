@@ -16,3 +16,6 @@ ffmpeg
 ffmpeg-libs
 neovim
 gnupg2
+virt-manager
+remmina
+remmina-plugins-vnc

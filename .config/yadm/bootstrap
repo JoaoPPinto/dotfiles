@@ -16,9 +16,14 @@ if [[ ! -d "$BOOTSTRAP_DIR" ]]; then
     exit 1
 fi
 
+# Set yadm hooks and initialize submodules
+yadm gitconfig core.hooksPath ${YADM_DIR}/hooks
+yadm submodule update --recursive --init
+
+
 # set zsh as shell
 if ! echo "${SHELL}" | grep -q '/zsh'; then
-	havecmd zsh || sudo pacman -S zsh
+	rpm -q zsh || sudo dnf install --assumeyes --quiet zsh
 	sudo chsh -s "$(command -v zsh)" "$(whoami)"
 	abort "Restart shell so that zsh environment is setup. Then re-run 'yadm bootstrap'"
 else
