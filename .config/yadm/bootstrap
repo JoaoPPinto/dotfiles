@@ -17,9 +17,15 @@ if [[ ! -d "$BOOTSTRAP_DIR" ]]; then
 fi
 
 # Set yadm hooks and initialize submodules
+printf "Setting yadm hooks and initializing submodules\n"
 yadm gitconfig core.hooksPath ${YADM_DIR}/hooks
 yadm submodule update --recursive --init
 
+printf "Removing original zsh config files\n"
+original_zsh_files=( "${HOME}/.zshrc" "${HOME}/.zprofile" "${HOME}/.zsh_history")
+for file in "${original_zsh_files[@]}"; do
+  rm -rf "${file}"
+done
 
 # set zsh as shell
 if ! echo "${SHELL}" | grep -q '/zsh'; then
