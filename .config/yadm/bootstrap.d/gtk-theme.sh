@@ -8,10 +8,13 @@ function download_catppuccin_theme() {
   local url="https://github.com/catppuccin/gtk/releases/download"
   local version="v0.7.1"
   local theme="$1"
-  printf "Downloading %s theme...\n" "${theme}"
-  curl -s -fLO "${url}/${version}/${theme}.zip" --output-dir "${THEME_DIR}"
-  unzip -q "${THEME_DIR}/${theme}.zip" -d "${THEME_DIR}"
-  rm -f "${THEME_DIR}/${theme}.zip"
+  
+  if dirs=( "${THEME_DIR}/${theme}"*/ ) && [[ ! -d ${dirs[0]} ]]; then
+    printf "Downloading %s theme...\n" "${theme}"
+    curl -s -fLO "${url}/${version}/${theme}.zip" --output-dir "${THEME_DIR}"
+    unzip -q "${THEME_DIR}/${theme}.zip" -d "${THEME_DIR}"
+    rm -f "${THEME_DIR}/${theme}.zip"
+  fi
 }
 
 download_catppuccin_theme "Catppuccin-Mocha-Standard-Blue-Dark"
@@ -21,7 +24,7 @@ download_catppuccin_theme "Catppuccin-Mocha-Standard-Yellow-Dark"
 download_catppuccin_theme "Catppuccin-Mocha-Standard-Lavender-Dark"
 
 # Ensure icon theme is installed
-if [[ ! $( rpm -q numix-icon-theme > /dev/null ) ]]; then
+if [[ $( rpm -q numix-icon-theme > /dev/null ) ]]; then
   printf "Installing Numix icon theme\n"
   if [ $EUID != 0 ]; then
     sudo dnf install --assumeyes --quiet numix-icon-theme

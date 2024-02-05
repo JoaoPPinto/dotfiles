@@ -18,7 +18,7 @@ printf "Checking ${PACKAGE_DIR}/fedora_packages.txt for packages to install...\n
 packages_to_install=()
 mapfile -t package_list < "${PACKAGE_DIR}/fedora_packages.txt"
 for package in ${package_list[@]}; do
-	if [[ ! $(rpm -q "${package}" > /dev/null) ]]; then
+	if [[ $(rpm -q "${package}" > /dev/null) ]]; then
 		printf "Need to install: %s\n" "${package}"
 		packages_to_install+=("${package}")
 	else
@@ -37,7 +37,7 @@ if [[ ${#packages_to_install[@]} -gt 0 ]]; then
 fi
 
 # Ensure Flatpak is installed
-if [[ ! $( rpm -q flatpak > /dev/null ) ]]; then
+if [[ $( rpm -q flatpak > /dev/null ) ]]; then
   printf "Installing Flatpak\n"
   if [ $EUID != 0 ]; then
     sudo dnf install --assumeyes --quiet flatpak
@@ -49,3 +49,9 @@ fi
 # Set Flathub repo
 printf "Setting Flathub repo\n"
 flatpak remote-add --if-not-exists flathub ${FLATHUB_REPO}
+
+# Install Rust
+if [[ $(command -v rustup) ]]; then
+  printf "Installing rustup\n"
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
