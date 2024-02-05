@@ -15,6 +15,6 @@ export SCREENSHOTS="${XDG_PICTURES_DIR}/Screenshots"
 export EDITOR=nvim
 export PAGER=less
 export LESS="R --ignore-case --LONG-PROMPT --QUIET --chop-long-lines --quit-if-one-screen --no-init"
-export TERMINAL='kitty'
+export TERMINAL='foot'
 
 export PATH="$HOME/.local/bin:$PATH"

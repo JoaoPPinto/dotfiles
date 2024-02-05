@@ -3,7 +3,7 @@
 # functions, options, key bindings, etc.
 
 # Prompt
-fpath+=($ZDOTDIR/plugins/pure)
+fpath+=(${ZDOTDIR}/plugins/pure)
 autoload -U promptinit; promptinit
 prompt pure
 
@@ -75,10 +75,10 @@ fi
 
 # Aliases
 
-if [ -f ./.aliases ]; then
-	. ./.aliases
+if [ -f ${ZDOTDIR}/.aliases ]; then
+	. ${ZDOTDIR}/.aliases
 fi
 
 # Plugins
 
-source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${ZDOTDIR}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
