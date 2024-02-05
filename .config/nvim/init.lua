@@ -49,7 +49,10 @@ end
 local lspconfig = require('lspconfig')
 local servers = {
   "terraformls",
-  "tflint"
+  "tflint",
+  "shellcheck",
+  "rust_analyzer",
+  "ansiblels"
 }
 
 for _,lsp in ipairs(servers) do

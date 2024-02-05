@@ -30,7 +30,30 @@ return {
       'nvim-treesitter/nvim-treesitter-context'
     }
   },
-  {'neovim/nvim-lspconfig'},
+  {'neovim/nvim-lspconfig',
+    dependencies = {
+      { 'williamboman/mason.nvim',
+        config = function ()
+	  require("mason").setup({
+            ui = {
+              icons = {
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗"
+             }
+            }
+	  })
+        end
+      },
+      { 'williamboman/mason-lspconfig.nvim',
+        config = function()
+	  require("mason-lspconfig").setup({
+	    ensure_installed = { "terraformls", "tflint", "trivy", "shellcheck", "rust_analyzer", "ansiblels" }
+	  })
+	end
+      }
+    }
+  },
   {'hrsh7th/nvim-cmp',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
