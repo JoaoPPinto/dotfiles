@@ -1,3 +1,4 @@
+thunderbird
 java-latest-openjdk
 java-latest-openjdk-devel
 maven
