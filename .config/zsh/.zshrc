@@ -8,12 +8,14 @@ autoload -U promptinit; promptinit
 prompt pure
 
 # Completion
-
+fpath+=(${ZDOTDIR}/completions)
 zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete _ignored
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDH_CACHE_HOME/zsh/.zcompcache"
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 autoload -Uz compinit && compinit -i
-autoload .U +X bashcompinit && bashcompinit
+#autoload .U +X bashcompinit && bashcompinit
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 setopt completealiases
