@@ -1,0 +1,65 @@
+# general
+firefox
+thunderbird
+zathura
+zathura-pdf-mupdf
+mpv
+chromium
+libreoffice
+obs-studio
+remmina
+remmina-plugins-vnc
+remmina-plugins-rdp
+
+# utils
+ripgrep
+fd-find
+bat-cat
+ffmpeg
+screen
+fzf
+wl-clipboard
+imv
+
+# editors
+neovim
+leafpad
+
+
+# dev - general
+git
+curl
+wget
+make
+zsh
+
+# dev - vm
+qemu
+libvirt
+virt-manager
+
+# dev - java
+java-21-openjdk
+java-21-openjdk-devel
+maven
+
+# dev - c/c++
+gcc
+gcc-c++
+gdb
+clang
+meson
+cmake
+autoconf
+
+# dev - misc
+golang
+nodejs
+
+# fonts
+google-noto-sans-fonts
+google-noto-serif-fonts
+google-droid-sans-fonts
+google-carlito-fonts
+fontawesome-fonts
+fontawesome5-fonts-all

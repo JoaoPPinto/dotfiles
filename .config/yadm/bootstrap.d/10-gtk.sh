@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 declare -r THEME_DIR="$HOME/.local/share/themes"
 
 [[ -n "${HOME}" && ! -d "${THEME_DIR}" ]] && mkdir -p "${THEME_DIR}"

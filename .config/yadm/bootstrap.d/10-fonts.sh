@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 
 declare -r FONT_DIR="${HOME}/.local/share/fonts"
 
@@ -15,12 +16,12 @@ function download_font() {
 function download_font_family() {
   local family="$1"
   shift
-  local fonts=( $@ )
+  local fonts=( "$@" )
   local font_weights=("Bold" "BoldItalic" "Italic" "Regular")
   for font in "${fonts[@]}"; do
     for font_weight in "${font_weights[@]}"; do
       if [[ ! -f "${FONT_DIR}/${font}-${font_weight}.ttf" ]]; then
-        printf "Font ${font}-${font_weight} not found. Downloading...\n"
+        printf "Font %s-%s not found. Downloading...\n" "${font}" "${font_weight}"
         download_font "${family}" "${font}-${font_weight}.ttf"
       fi
     done

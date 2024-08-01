@@ -6,6 +6,16 @@
 
 set -eu
 
+print_error() {
+	printf '%s%s%s\n' "$(tput setaf 1)" "$1" "$(tput sgr0)" 1>&2
+} && export -f print_error
+
+abort() {
+	print_error "$1"
+	exit 1
+} && export -f abort
+
+
 # Directory to look for bootstrap executables in
 declare -rx YADM_DIR="${HOME}/.config/yadm"
 declare -rx BOOTSTRAP_DIR="${YADM_DIR}/bootstrap.d"
@@ -18,7 +28,7 @@ fi
 
 # Set yadm hooks and initialize submodules
 printf "Setting yadm hooks and initializing submodules\n"
-yadm gitconfig core.hooksPath ${YADM_DIR}/hooks
+yadm gitconfig core.hooksPath "${YADM_DIR}"/hooks
 yadm submodule update --recursive --init
 
 printf "Removing original zsh config files\n"
