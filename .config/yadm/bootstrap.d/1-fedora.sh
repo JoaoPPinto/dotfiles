@@ -8,6 +8,8 @@ if [[ $(lsb_release -si) != "Fedora" ]]; then
   exit 0
 fi
 
+printf "Executing Fedora Specific setup\n"
+
 # ensure rpm fusion is installed
 printf "Ensure RPMFusion repo is installed\n"
 if [ $EUID != 0 ]; then
@@ -20,13 +22,10 @@ fi
 # list all packages that need to be installed
 printf "Checking %s/fedora_packages.txt for packages to install...\n" "${PACKAGE_DIR}"
 packages_to_install=()
-mapfile -t package_list < "${PACKAGE_DIR}/fedora_packages.txt"
+mapfile -t package_list < <( grep -vE '^$|#' "${PACKAGE_DIR}/fedora.txt")
 for package in "${package_list[@]}"; do
 	if [[ $(rpm -q "${package}" > /dev/null) ]]; then
-		printf "Need to install: %s\n" "${package}"
 		packages_to_install+=("${package}")
-	else
-		printf "Already installed: %s\n" "${package}"
 	fi
 done
 
@@ -34,9 +33,9 @@ done
 if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 	printf "Installing packages: %s\n" "${packages_to_install[*]}"
 	if [ $EUID != 0 ]; then
-	  sudo dnf install --assumeyes --quiet "${packages_to_install[*]}"
+	  printf "%s\n" "${packages_to_install[@]}" | xargs sudo dnf install --assumeyes --quiet 
         else
-          dnf install "${packages_to_install[@]}"
+          printf "%s\n" "${packages_to_install[@]}" | xargs dnf install --assumeyes --quiet "${packages_to_install[@]}"
 	fi
 fi
 
