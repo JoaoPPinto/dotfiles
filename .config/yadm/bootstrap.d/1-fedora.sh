@@ -33,9 +33,9 @@ done
 if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 	printf "Installing packages: %s\n" "${packages_to_install[*]}"
 	if [ $EUID != 0 ]; then
-	  printf "%s\n" "${packages_to_install[@]}" | xargs sudo dnf install --assumeyes --quiet 
+	  printf "%s\n" "${packages_to_install[@]}" | xargs sudo dnf install --assumeyes --quiet --allowerasing
         else
-          printf "%s\n" "${packages_to_install[@]}" | xargs dnf install --assumeyes --quiet "${packages_to_install[@]}"
+          printf "%s\n" "${packages_to_install[@]}" | xargs dnf install --assumeyes --quiet --allowerasing
 	fi
 fi
 
