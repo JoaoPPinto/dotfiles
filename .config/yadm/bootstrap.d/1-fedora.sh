@@ -20,11 +20,11 @@ fi
 
 
 # list all packages that need to be installed
-printf "Checking %s/fedora_packages.txt for packages to install...\n" "${PACKAGE_DIR}"
+printf "Checking %s/fedora.txt for packages to install...\n" "${PACKAGE_DIR}"
 packages_to_install=()
 mapfile -t package_list < <( grep -vE '^$|#' "${PACKAGE_DIR}/fedora.txt")
 for package in "${package_list[@]}"; do
-	if [[ $(rpm -q "${package}" > /dev/null) ]]; then
+	if ! dnf repoquery -q --installed "${package}" > /dev/null; then
 		packages_to_install+=("${package}")
 	fi
 done
