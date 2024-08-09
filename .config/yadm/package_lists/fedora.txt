@@ -10,11 +10,12 @@ obs-studio
 remmina
 remmina-plugins-vnc
 remmina-plugins-rdp
+thunar-volman
 
 # utils
 ripgrep
 fd-find
-bat-cat
+bat
 ffmpeg
 screen
 fzf
@@ -29,7 +30,7 @@ leafpad
 # dev - general
 git
 curl
-wget
+wget2
 make
 zsh
 
@@ -61,5 +62,4 @@ google-noto-sans-fonts
 google-noto-serif-fonts
 google-droid-sans-fonts
 google-carlito-fonts
-fontawesome-fonts
-fontawesome5-fonts-all
+fontawesome-fonts-all
