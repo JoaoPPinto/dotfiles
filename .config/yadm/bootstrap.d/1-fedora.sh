@@ -39,4 +39,4 @@ if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 	fi
 fi
 
-printf "End Fedora Specific setup\n
+printf "End Fedora Specific setup\n"
