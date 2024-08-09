@@ -5,7 +5,7 @@ set -e
 FLATHUB_REPO="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 # Ensure Flatpak is installed
-if ! dnf repoquery -q --installed flatpak > /dev/null; then
+if ! rpm -q flatpak > /dev/null; then
   printf "Installing Flatpak\n"
   if [ $EUID != 0 ]; then
     sudo dnf install --assumeyes --quiet flatpak

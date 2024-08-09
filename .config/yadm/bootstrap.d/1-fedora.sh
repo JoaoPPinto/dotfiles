@@ -4,7 +4,7 @@ set -e
 
 # Check if the current distro is Fedora, otherwise exit without error and continue
 if [[ $(lsb_release -si) != "Fedora" ]]; then
-  printf "Not Fedora, skipping to next distro file"
+  printf "Not Fedora, skipping to next distro file\n"
   exit 0
 fi
 
@@ -24,7 +24,7 @@ printf "Checking %s/fedora.txt for packages to install...\n" "${PACKAGE_DIR}"
 packages_to_install=()
 mapfile -t package_list < <( grep -vE '^$|#' "${PACKAGE_DIR}/fedora.txt")
 for package in "${package_list[@]}"; do
-	if ! dnf repoquery -q --installed "${package}" > /dev/null; then
+	if ! rpm -q  "${package}" > /dev/null; then
 		packages_to_install+=("${package}")
 	fi
 done
@@ -39,3 +39,4 @@ if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 	fi
 fi
 
+printf "End Fedora Specific setup\n
