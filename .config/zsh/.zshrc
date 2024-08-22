@@ -9,6 +9,7 @@ prompt pure
 
 # Completion
 fpath+=(${ZDOTDIR}/completions)
+fpath+=(/usr/lib/python3.12/site-packages/argcomplete/bash_completion.d)
 zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete _ignored
 zstyle ':completion:*' use-cache on
