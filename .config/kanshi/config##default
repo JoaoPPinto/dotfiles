@@ -4,10 +4,6 @@ profile premium {
     output "Lenovo Group Limited P24h-2L V3079106" mode 2560x1440@59.951Hz position 1920,0
 }
 
-profile casa-single {
-    output eDP-1 enable position 0,0
-    output "Goldstar Company Ltd LG ULTRAGEAR 012NTEP9F036" mode 2560x1440 position 1920,0
-}
 
 profile casa {
     output eDP-1 enable position 1440,2000
