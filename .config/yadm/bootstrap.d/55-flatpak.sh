@@ -2,6 +2,7 @@
 
 set -e
 
+printf "bootstrap.d - flatpak start\n"
 printf "Starting Flatpak setup\n"
 
 FLATHUB_REPO="https://dl.flathub.org/repo/flathub.flatpakrepo"
@@ -25,7 +26,7 @@ printf "Checking %s/flatpak.txt for packages to install...\n" "${PACKAGE_DIR}"
 packages_to_install=()
 mapfile -t package_list < <( grep -vE '^$|#' "${PACKAGE_DIR}/flatpak.txt" )
 for package in "${package_list[@]}"; do
-	if ! flatpack list | grep -q "$package"; then
+	if ! flatpak list | grep -q "$package"; then
 		packages_to_install+=("${package}")
 	fi
 done
@@ -34,10 +35,11 @@ done
 if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 	printf "Installing packages: %s\n" "${packages_to_install[*]}"
 	if [ $EUID != 0 ]; then
-		printf "%s\n" "${packages_to_install[@]}" | xargs sudo flatpak install --noninteractive
+		printf "%s\n" "${packages_to_install[@]}" | xargs sudo flatpak install --noninteractive flathub
 	else
-		prints "%s\n" "${packages_to_install[@]}" | xargs flatpak install --noninteractive
+		prints "%s\n" "${packages_to_install[@]}" | xargs flatpak install --noninteractive flathub
 	fi
 fi
 
 printf "End Flatpak Setup\n"
+printf "bootstrap.d - flatpak end\n"

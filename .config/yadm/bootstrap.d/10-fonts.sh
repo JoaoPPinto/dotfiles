@@ -2,6 +2,8 @@
 
 set -e
 
+printf "bootstrap.d - fonts starting\n"
+
 declare -r FONT_DIR="${HOME}/.local/share/fonts"
 
 [[ -n "${HOME}" && ! -d "${FONT_DIR}" ]] && mkdir -p "${FONT_DIR}"
@@ -31,4 +33,6 @@ function download_font_family() {
 SOURCE_CODE_PRO_FONT_TYPES=("SauceCodeProNerdFont" "SauceCodeProNerdFontMono" "SauceCodeProNerdFontPropo")
 
 download_font_family "SourceCodePro" "${SOURCE_CODE_PRO_FONT_TYPES[@]}"
+
+printf "bootstrap.d - fonts ending\n"
 

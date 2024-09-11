@@ -2,6 +2,8 @@
 
 set -e
 
+printf "bootstrap.d - fedora starting\n"
+
 # Check if the current distro is Fedora, otherwise exit without error and continue
 if [[ $(lsb_release -si) != "Fedora" ]]; then
   printf "Not Fedora, skipping to next distro file\n"
@@ -40,3 +42,4 @@ if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
 fi
 
 printf "End Fedora Specific setup\n"
+printf "bootstrap.d - fedora end\n"

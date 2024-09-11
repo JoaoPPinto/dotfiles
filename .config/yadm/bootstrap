@@ -51,7 +51,7 @@ else
 fi
 
 # Run all bootstrap scripts in bootstrap.d
-find -L "$BOOTSTRAP_DIR" -type f | sort | while IFS= read -r bootstrap; do
+command find -L "$BOOTSTRAP_DIR" -type f | sort -V | while IFS= read -r bootstrap; do
     if [[ -x "$bootstrap" && ! "$bootstrap" =~ "##" && ! "$bootstrap" =~ "~$" ]]; then
         if ! "$bootstrap"; then
             abort "Error: bootstrap '$bootstrap' failed"

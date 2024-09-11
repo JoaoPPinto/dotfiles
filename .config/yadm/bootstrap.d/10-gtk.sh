@@ -2,6 +2,8 @@
 
 set -e
 
+printf "bootstrap.d - gtk starting\n"
+
 declare -r THEME_DIR="$HOME/.local/share/themes"
 
 [[ -n "${HOME}" && ! -d "${THEME_DIR}" ]] && mkdir -p "${THEME_DIR}"
@@ -38,3 +40,5 @@ fi
 printf "Setting themes in gsettings\n"
 gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-Blue-Dark"
 gsettings set org.gnome.desktop.interface icon-theme "Numix"
+
+printf "bootstrap.d - gtk ending\n"
