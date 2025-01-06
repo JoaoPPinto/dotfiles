@@ -14,7 +14,7 @@ printf "Executing Fedora Specific setup\n"
 
 # ensure rpm fusion is installed
 printf "Ensure RPMFusion repo is installed\n"
-if [ $EUID != 0 ]; then
+if [[ $EUID != 0 ]]; then
   sudo dnf install --assumeyes --quiet  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 else
   dnf install --assumeyes --quiet https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm

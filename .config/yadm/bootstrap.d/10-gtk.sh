@@ -6,6 +6,14 @@ printf "bootstrap.d - gtk starting\n"
 
 declare -r THEME_DIR="$HOME/.local/share/themes"
 
+CATPUCCIN_THEMES=(
+  "Catpuccin-Mocha-Standard-Blue-Dark"
+  "Catpuccin-Mocha-Standard-Teal-Dark"
+  "Catpuccin-Mocha-Standard-Peach-Dark"
+  "Catpuccin-Mocha-Standard-Yellow-Dark"
+  "Catpuccin-Mocha-Standard-Lavender-Dark"
+)
+
 [[ -n "${HOME}" && ! -d "${THEME_DIR}" ]] && mkdir -p "${THEME_DIR}"
 
 function download_catppuccin_theme() {
@@ -13,7 +21,7 @@ function download_catppuccin_theme() {
   local version="v0.7.1"
   local theme="$1"
   
-  if dirs=( "${THEME_DIR}/${theme}"*/ ) && [[ ! -d ${dirs[0]} ]]; then
+  if [[ ! -d "${THEME_DIR}/${theme}" ]]; then
     printf "Downloading %s theme...\n" "${theme}"
     curl -s -fLO "${url}/${version}/${theme}.zip" --output-dir "${THEME_DIR}"
     unzip -q "${THEME_DIR}/${theme}.zip" -d "${THEME_DIR}"
@@ -21,11 +29,9 @@ function download_catppuccin_theme() {
   fi
 }
 
-download_catppuccin_theme "Catppuccin-Mocha-Standard-Blue-Dark"
-download_catppuccin_theme "Catppuccin-Mocha-Standard-Teal-Dark"
-download_catppuccin_theme "Catppuccin-Mocha-Standard-Peach-Dark"
-download_catppuccin_theme "Catppuccin-Mocha-Standard-Yellow-Dark"
-download_catppuccin_theme "Catppuccin-Mocha-Standard-Lavender-Dark"
+for theme in "${CATPUCCIN_THEMES[@]}"; do
+  download_catppuccin_theme "$theme"
+done
 
 # Ensure icon theme is installed
 if [[ $( rpm -q numix-icon-theme > /dev/null ) ]]; then
