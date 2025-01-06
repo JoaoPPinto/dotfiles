@@ -53,12 +53,10 @@
         "format": "{usage}% ",
         "tooltip": false,
         "interval": 5
-	//"on-click": "foot htop"
     },
     "memory": {
         "format": "{}% ",
         "tooltip": false
-        //"on-click": "foot htop"
     },
     "battery": {
         "bat": "BAT0",
