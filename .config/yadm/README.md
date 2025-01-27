@@ -1,6 +1,6 @@
 # Dotfiles
 
-For desktop config, templates expect the hostname to be 'desktop'
+Set class according to computer type ('desktop' or 'laptop')
 If using nVidia GPU, set class nvidia ('yadm config local.class nvidia')
 
 ## List of things to do after cloning repo and running bootstrap
