@@ -18,9 +18,9 @@ CATPUCCIN_THEMES=(
 
 function download_catppuccin_theme() {
   local url="https://github.com/catppuccin/gtk/releases/download"
-  local version="v0.7.1"
+  local version="v1.0.3"
   local theme="$1"
-  
+
   if [[ ! -d "${THEME_DIR}/${theme}" ]]; then
     printf "Downloading %s theme...\n" "${theme}"
     curl -s -fLO "${url}/${version}/${theme}.zip" --output-dir "${THEME_DIR}"

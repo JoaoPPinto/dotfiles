@@ -7,8 +7,8 @@ set -e
 printf "bootstrap.d - jetbrains start\n"
 printf "Starting Jetbrains Toolbox Install\n"
 
-INSTALL_DIR="$HOME/.local/share/JetBrains/Toolbox/bin"
-SYMLINK_DIR="$HOME/.local/bin"
+declare -r INSTALL_DIR="$HOME/.local/share/JetBrains/Toolbox/bin"
+declare -r SYMLINK_DIR="$HOME/.local/bin"
 
 printf "Downloading archive...\n"
 ARCHIVE_URL=$(curl -s 'https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release' | grep -Po '"linux":.*?[^\\]",' | awk -F ':' '{print $3,":"$4}'| sed 's/[", ]//g')
@@ -22,8 +22,9 @@ rm "$INSTALL_DIR/jetbrains-toolbox" 2>/dev/null || true
 tar -xzf "/tmp/$ARCHIVE_FILENAME" -C "$INSTALL_DIR" --strip-components=1
 rm "/tmp/$ARCHIVE_FILENAME"
 chmod +x "$INSTALL_DIR/jetbrains-toolbox"
+
 # Symlink
-mkdir -p $SYMLINK_DIR
+mkdir -p "$SYMLINK_DIR"
 rm "$SYMLINK_DIR/jetbrains-toolbox" 2>/dev/null || true
 ln -s "$INSTALL_DIR/jetbrains-toolbox" "$SYMLINK_DIR/jetbrains-toolbox"
 

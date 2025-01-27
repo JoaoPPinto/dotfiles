@@ -5,7 +5,7 @@ set -e
 printf "bootstrap.d - flatpak start\n"
 printf "Starting Flatpak setup\n"
 
-FLATHUB_REPO="https://dl.flathub.org/repo/flathub.flatpakrepo"
+declare -r FLATHUB_REPO="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 # Ensure Flatpak is installed
 if ! rpm -q flatpak > /dev/null; then
