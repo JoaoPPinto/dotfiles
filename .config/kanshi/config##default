@@ -1,0 +1,20 @@
+profile premium {
+    output eDP-1 enable
+    output "Lenovo Group Limited LEN P24q-20 V30597NY" mode 2560x1440@59.951Hz position 4480,0 transform 270
+    output "Lenovo Group Limited P24h-2L V3079106" mode 2560x1440@59.951Hz position 1920,0
+}
+
+profile casa-single {
+    output eDP-1 enable position 0,0
+    output "Goldstar Company Ltd LG ULTRAGEAR 012NTEP9F036" mode 2560x1440 position 1920,0
+}
+
+profile casa {
+    output eDP-1 enable position 1440,2000
+    output "LG Electronics LG ULTRAGEAR 012NTEP9F036" mode 2560x1440@59.951Hz position 1440,560
+    output "Dell Inc. DELL S2721DS 7HRKQ43" mode 2560x1440@59.951Hz position 0,0 transform 90
+}
+
+profile mobile {
+    output eDP-1 enable
+}
