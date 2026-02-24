@@ -1,0 +1,70 @@
+#! /usr/bin/env bash
+
+# yadm bootstrap script
+set -euo pipefail
+
+DEBUG_MODE=0
+
+for arg in "$@"; do
+    case "$arg" in
+        --debug)
+            DEBUG_MODE=1
+            ;;
+    esac
+done
+
+print_msg() {
+    local level="INFO"
+    if [[ $# -gt 0 ]]; then
+        level="$1"
+        shift
+    fi
+    local msg="$*"
+
+    if [[ "$level" == "DEBUG" && "$DEBUG_MODE" -ne 1 ]]; then
+        return 0
+    fi
+
+    local color=""
+    if command -v tput >/dev/null 2>&1 && [[ -n "${TERM:-}" ]]; then
+        case "$level" in
+            INFO)  color="$(tput setaf 2)" ;;  # green
+            WARN)  color="$(tput setaf 3)" ;;  # yellow
+            ERROR) color="$(tput setaf 1)" ;;  # red
+            DEBUG) color="$(tput setaf 6)" ;;
+            *)     color="" ;;
+        esac
+        printf '%s[%s] %s%s\n' "$color" "$level" "$msg" "$(tput sgr0)" >&2
+    else
+        printf '[%s] %s\n' "$level" "$msg" >&2
+    fi
+}
+export -f print_msg
+
+abort() {
+	print_msg ERROR "$1"
+	exit 1
+} && export -f abort
+
+print_msg INFO "Starting bootstrap script"
+
+# Directory to look for bootstrap executables in
+#declare -rx YADM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/yadm"
+declare -rx BOOTSTRAP_DIR="${YADM_DIR}/bootstrap.d"
+declare -rx PACKAGE_DIR="${YADM_DIR}/package_lists"
+
+[[ -d "$BOOTSTRAP_DIR" ]] || abort "bootstrap directory '$BOOTSTRAP_DIR' not found"
+
+# Run all bootstrap scripts in bootstrap.d
+print_msg DEBUG "Starting execution of bootstrap.d scripts"
+
+while IFS= read -r bootstrap; do
+    source "$bootstrap" || abort "bootstrap script '$bootstrap' failed"
+done < <(
+    find -L "$BOOTSTRAP_DIR" \
+        -type f \
+        -executable \
+        ! -name '*##*' \
+        ! -name '*~' \
+    | sort
+)

@@ -1,0 +1,8 @@
+00–09  → Environment / detection
+10–19  → Repositories
+20–29  → Core packages
+30–39  → Fonts / themes / UX
+40–49  → System services
+50–59  → Development environment
+60–79  → External software
+90–99  → Cleanup / finalization
