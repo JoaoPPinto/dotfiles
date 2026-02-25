@@ -15,9 +15,7 @@ CLASSES+=("${BOOTSTRAP_PLATFORM}")
 
 print_msg INFO "Applying yadm classes: ${CLASSES[*]}"
 
-while yadm config --get local.class >/dev/null 2>&1; do
-    yadm config --unset local.class || break
-done
+yadm config --unset-all local.class 2>/dev/null || true
 
 for CLASS in "${CLASSES[@]}"; do
     print_msg DEBUG "Adding local.class=$CLASS"
