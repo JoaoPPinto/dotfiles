@@ -47,18 +47,17 @@ else
     unzip -q "$TMP_DIR/icons.zip" -d "$TMP_DIR" \
         || abort "Failed to extract icon pack"
 
-    EXTRACTED_DIR="$(find "$TMP_DIR" -maxdepth 1 -type d -name "Gruvbox-Plus-*" | head -n1)"
-    [[ -n "$EXTRACTED_DIR" ]] \
-        || abort "Could not located extracted icon directory"
-
     print_msg INFO "Installing icon theme to /usr/share/icons"
     sudo mkdir -p /usr/share/icons
 
-    sudo cp -r "${EXTRACTED_DIR}/${ICON_DARK}" "$ICON_BASE_DIR/" \
-        || abort "Failed to install ${ICON_DARK}"
-
-    sudo cp -r "${EXTRACTED_DIR}/${ICON_LIGHT}" "$ICON_BASE_DIR/" \
-        || abort "Failed to install ${ICON_LIGHT}"
+    for ICON in "$ICON_DARK" "$ICON_LIGHT"; do
+        if [[ -d "$TMP_DIR/$ICON" ]]; then
+            sudo cp -r "$TMP_DIR/$ICON" "$ICON_BASE_DIR/" \
+                || abort "Failed to install $ICON"
+        else
+            abort "Could not find $ICON in the extracted archive"
+        fi
+    done
 
     sudo gtk-update-icon-cache "${ICON_BASE_DIR}/${ICON_DARK}" || true
     sudo gtk-update-icon-cache "${ICON_BASE_DIR}/${ICON_LIGHT}" || true
