@@ -3,7 +3,7 @@
 * Catppuccin Mocha palette
 * Maintainer: rubyowo
 *
-*/
+*
 
 @define-color base   #1e1e2e;
 @define-color mantle #181825;
@@ -35,12 +35,19 @@
 @define-color pink      #f5c2e7;
 @define-color flamingo  #f2cdcd;
 @define-color rosewater #f5e0dc;
+*/
+
+@define-color base  #282828;
+@define-color overlay0 #3c3836;
+@define-color fg   #ebdbb2;
+
+@define-color red #fb4934;
 
 * {
     border: none;
     border-radius: 0;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: SauceCodePro Nerd Font, sans-serif;
+    font-family: Roboto, Font Awesome 6 Free, sans-serif;
     font-size: 14px;
     font-weight: 500;
     min-height: 0;
@@ -48,7 +55,7 @@
 
 window#waybar {
     background: @base;
-    color: @blue;
+    color: @fg;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -74,8 +81,8 @@ window#waybar {
 }
 
 #workspaces button.focused {
-    background-color: @blue;
-    color: @surface0;
+    background-color: @fg;
+    color: @bg;
     border-radius: 5px;
 }
 
@@ -85,22 +92,22 @@ window#waybar {
 
 
 #mode {
-    background-color: @blue;
-    color: @surface0;
+    background-color: @fg;
+    color: @overlay0;
     border-radius: 5px;
     padding: 3px 10px;
     margin: 3px;
 }
 
 .modules-center > widget > * {
-    color: @saphire;
+    color: @fg;
 }
 
 .modules-right > widget > * {
   padding: 0 10px;
   margin: 3px 0px;
-  color: @blue;
-  background-color: @surface0;
+  color: @fg;
+  background-color: @overlay0;
 }
 
 .modules-right > widget:first-child > * {
