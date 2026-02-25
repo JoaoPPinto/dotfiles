@@ -49,14 +49,14 @@ abort() {
 print_msg INFO "Starting bootstrap script"
 
 # Directory to look for bootstrap executables in
-#declare -rx YADM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/yadm"
+declare -rx YADM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/yadm"
 declare -rx BOOTSTRAP_DIR="${YADM_DIR}/bootstrap.d"
 declare -rx PACKAGE_DIR="${YADM_DIR}/package_lists"
 
 [[ -d "$BOOTSTRAP_DIR" ]] || abort "bootstrap directory '$BOOTSTRAP_DIR' not found"
 
 # Run all bootstrap scripts in bootstrap.d
-print_msg DEBUG "Starting execution of bootstrap.d scripts"
+print_msg DEBUG "Scanning bootstrap.d directory"
 
 while IFS= read -r bootstrap; do
     source "$bootstrap" || abort "bootstrap script '$bootstrap' failed"
