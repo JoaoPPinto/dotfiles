@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # 32-fonts-nerdfonts
 # Installs needed nerdfonts on linux
