@@ -2,6 +2,10 @@
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
 
+fpath+=(${ZDOTDIR}/plugins/pure)
+autoload -U promptinit; promptinit
+prompt pure
+
 # Completion
 zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete _ignored
@@ -65,3 +69,5 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
+
+source ${ZDOTDIR}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
