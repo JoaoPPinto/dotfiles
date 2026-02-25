@@ -7,6 +7,7 @@
 # BOOTSTRAP_PLATFORM = linux | macos
 # BOOTSTRAP_OS = fedora | ubuntu | debian | macos
 # BOOTSTRAP_ARCH = amd64 | arm64
+set -euo pipefail
 
 print_msg INFO "Detecting OS ..."
 
@@ -17,30 +18,32 @@ readonly UNAME_M="$(uname -m)"
 
 case "$UNAME_M" in
     x86_64|amd64)
-        export BOOTSTRAP_ARCH="amd64"
+        BOOTSTRAP_ARCH="amd64"
         ;;
     aarch64|arm64)
-        export BOOTSTRAP_ARCH="arm64"
+        BOOTSTRAP_ARCH="arm64"
         ;;
     *)
         abort "Unsupported architecture: $(uname -m)"
         ;;
 esac
+export BOOTSTRAP_ARCH
 
 # ---- Platform detection -----------------------------------------------------
 
 case "$UNAME_S" in
     Darwin)
-        export BOOTSTRAP_PLATFORM="macos"
-        export BOOTSTRAP_OS="macos"
+        BOOTSTRAP_PLATFORM="macos"
+        BOOTSTRAP_OS="macos"
         ;;
     Linux)
-        export BOOTSTRAP_PLATFORM="linux"
+        BOOTSTRAP_PLATFORM="linux"
         ;;
     *)
         abort "Unsupported platform: $(uname -s)"
         ;;
 esac
+export BOOTSTRAP_PLATFORM
 
 # ---- Linux distribution detection ------------------------------------------
 
@@ -54,19 +57,20 @@ if [[ "$BOOTSTRAP_PLATFORM" == "linux" ]]; then
 
     case "${ID:-}" in
         fedora)
-            export BOOTSTRAP_OS="fedora"
+            BOOTSTRAP_OS="fedora"
             ;;
         ubuntu)
-            export BOOTSTRAP_OS="ubuntu"
+            BOOTSTRAP_OS="ubuntu"
             ;;
         debian)
-            export BOOTSTRAP_OS="debian"
+            BOOTSTRAP_OS="debian"
             ;;
         *)
             abort "Unsupported Linux distribution: ${ID:-unknown}"
             ;;
     esac
 fi
+export BOOTSTRAP_OS
 
 print_msg INFO "Platform : $BOOTSTRAP_PLATFORM"
 print_msg INFO "OS       : $BOOTSTRAP_OS"
