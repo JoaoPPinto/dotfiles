@@ -1,0 +1,18 @@
+[global]
+font = Roboto 11
+icon_theme = Gruvbox-Plus-Dark
+frame_color = "#d79921"
+separator_color= frame
+
+[urgency_low]
+background = "#3c3836"
+foreground = "#665c54"
+
+[urgency_normal]
+background = "#504945"
+foreground = "#d5c4a1"
+
+[urgency_critical]
+background = "#fb4934"
+foreground = "#ebdbb2"
+frame_color = "#cc241d"
