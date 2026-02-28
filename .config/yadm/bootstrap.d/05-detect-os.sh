@@ -7,6 +7,7 @@
 # BOOTSTRAP_PLATFORM = linux | macos
 # BOOTSTRAP_OS = fedora | ubuntu | debian | macos
 # BOOTSTRAP_ARCH = amd64 | arm64
+
 set -euo pipefail
 
 print_msg INFO "Detecting OS ..."
@@ -24,10 +25,9 @@ case "$UNAME_M" in
         BOOTSTRAP_ARCH="arm64"
         ;;
     *)
-        abort "Unsupported architecture: $(uname -m)"
+        abort "Unsupported architecture: $UNAME_M"
         ;;
 esac
-export BOOTSTRAP_ARCH
 
 # ---- Platform detection -----------------------------------------------------
 
@@ -40,10 +40,9 @@ case "$UNAME_S" in
         BOOTSTRAP_PLATFORM="linux"
         ;;
     *)
-        abort "Unsupported platform: $(uname -s)"
+        abort "Unsupported platform: $UNAME_S"
         ;;
 esac
-export BOOTSTRAP_PLATFORM
 
 # ---- Linux distribution detection ------------------------------------------
 
@@ -70,7 +69,9 @@ if [[ "$BOOTSTRAP_PLATFORM" == "linux" ]]; then
             ;;
     esac
 fi
-export BOOTSTRAP_OS
+
+export BOOTSTRAP_ARCH BOOTSTRAP_PLATFORM BOOTSTRAP_OS
+readonly BOOTSTRAP_ARCH BOOTSTRAP_PLATFORM BOOTSTRAP_OS
 
 print_msg INFO "Platform : $BOOTSTRAP_PLATFORM"
 print_msg INFO "OS       : $BOOTSTRAP_OS"
