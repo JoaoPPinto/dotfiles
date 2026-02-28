@@ -44,7 +44,16 @@ export -f print_msg
 abort() {
 	print_msg ERROR "$1"
 	exit 1
-} && export -f abort
+}
+export -f abort
+
+require_sudo() {
+    if ! sudo -n true 2>/dev/null; then
+        print_msg INFO "Requesting sudo access"
+        sudo -v
+    fi
+}
+export -f require_sudo
 
 print_msg INFO "Starting bootstrap script"
 
