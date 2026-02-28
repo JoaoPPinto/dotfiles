@@ -40,7 +40,7 @@ if [[ "${BOOTSTRAP_PLATFORM:-}" == "linux" ]]; then
         IS_LAPTOP=1
     # Fallback: DMI chassis type
     elif [[ -r /sys/class/dmi/id/chassis_type ]]; then
-        read -r chassis_type < /sys/class/dmi/chassis_type
+        read -r chassis_type < /sys/class/dmi/id/chassis_type
         case "$chassis_type" in
             8|9|10|14) # Portable, Laptop, Notebook, Sub-notebook
                 IS_LAPTOP=1
