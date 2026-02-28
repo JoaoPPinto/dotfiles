@@ -4,12 +4,12 @@
 
 set -euo pipefail
 
-stage "Updating base OS packages"
+print_msg INFO "Updating base OS packages"
 
 case "${BOOTSTRAP_OS:-}" in
     fedora)
         print_msg INFO "Updating Fedora system packages..."
-        required_sudo
+        require_sudo
         sudo dnf upgrade --assumeyes --quiet --refresh
         ;;
     ubuntu|debian)
