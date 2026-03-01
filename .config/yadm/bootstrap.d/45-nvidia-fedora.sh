@@ -7,7 +7,7 @@ set -euo pipefail
 
 [[ "${BOOTSTRAP_OS:-}" == "fedora" ]] || return 0
 [[ "${HAS_NVIDIA:-0}" -eq 1 ]] || return 0
-[[ "${HAS_RTX:-0}" -eq 1 ]] || {
+[[ "${IS_RTX:-0}" -eq 1 ]] || {
     print_msg WARN "NVIDIA GPU detected but not RTX. Skipping proprietary driver setup."
     return 0
 }
@@ -18,7 +18,7 @@ if [[ "${SECUREBOOT_ENABLED:-0}" -eq 1 ]]; then
     print_msg WARN "Secure Boot is ENABLED."
     print_msg WARN "Manual key enrollment will be required after installation."
     echo
-    read -rp "Continue with NVIDIA installation? [y/N]: " confirm
+    read -rp "Continue with NVIDIA installation? [y/N]: " confirm </dev/tty
     [[ "$confirm" =~ ^[Yy]$ ]] || {
         print_msg INFO "Skipping NVIDIA installation."
         return 0
