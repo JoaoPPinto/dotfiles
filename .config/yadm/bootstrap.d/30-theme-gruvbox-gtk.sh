@@ -8,6 +8,22 @@ set -euo pipefail
 
 [[ "$BOOTSTRAP_PLATFORM" == "linux" ]] || return 0
 
+THEME_FOUND=0
+
+for dir in "$HOME/.themes" "/usr/share/themes"; do
+    if [[ -d "$dir"]]; then
+        if find "$dir" -maxdepth 1 -type d -name 'Gruvbox*' | grep -q .; then
+            THEME_FOUND=1
+            break
+        fi
+    fi
+done
+
+if [[ "$THEME_FOUND" -eq 1 ]]; then
+    print_msg INFO "Gruvbox GTK theme already appears to be installed. Skipping instructions"
+    return 0
+fi
+
 print_msg INFO "Gruvbox GTK Theme Installation Instructions"
 
 cat <<'EOF'
