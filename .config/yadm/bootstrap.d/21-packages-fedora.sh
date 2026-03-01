@@ -47,4 +47,9 @@ else
     print_msg INFO "All Fedora packages already installed"
 fi
 
+if rpm -q ffmpeg-free >/dev/null 2>&1 && ! rpm -q ffmpeg >/dev/null 2>&1; then
+    print_msg INFO "Replacing ffmpeg-free with full ffmpeg..."
+    sudo dnf swap --assumeyes ffmpeg-free ffmpeg
+fi
+
 print_msg INFO "Fedora package installation complete"
