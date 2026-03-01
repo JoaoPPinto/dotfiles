@@ -11,7 +11,7 @@ set -euo pipefail
 THEME_FOUND=0
 
 for dir in "$HOME/.themes" "/usr/share/themes"; do
-    if [[ -d "$dir"]]; then
+    if [[ -d "$dir" ]]; then
         if find "$dir" -maxdepth 1 -type d -name 'Gruvbox*' | grep -q .; then
             THEME_FOUND=1
             break
