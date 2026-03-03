@@ -5,6 +5,7 @@ bat
 fzf
 screen
 imv
+zsh
 
 # general
 firefox
@@ -14,6 +15,8 @@ zathura-pdf-mupdf
 remmina
 remmina-plugins-vnc
 remmina-plugins-rdp
+mpv
+libreoffice
 
 # text editors
 neovim
@@ -24,3 +27,9 @@ git
 curl
 wget2
 make
+
+# fonts
+fontawesome-fonts-all
+google-roboto-fonts
+google-noto-sans-fonts
+google-noto-serif-fonts
