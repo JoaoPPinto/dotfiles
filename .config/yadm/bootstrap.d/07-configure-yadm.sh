@@ -29,3 +29,9 @@ if [[ "$CURRENT_REMOTE" != "$EXPECTED_REMOTE" ]]; then
     print_msg INFO "Updating yadm remote URL"
     yadm remote set-url origin "$EXPECTED_REMOTE"
 fi
+
+print_msg INFO "Inintiating submodules"
+yadm submodule update --recursive --init
+
+print_msg INFO "Applying alt files now that classes have been set"
+yadm alt
