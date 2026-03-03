@@ -4,14 +4,37 @@
 set -euo pipefail
 
 DEBUG_MODE=0
+BOOTSTRAP_FLAGS=()
 
-for arg in "$@"; do
-    case "$arg" in
-        --debug)
-            DEBUG_MODE=1
-            ;;
-    esac
-done
+parse_flags() {
+    BOOTSTRAP_FLAGS=()
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --debug)
+                DEBUG_MODE=1
+                BOOTSTRAP_FLAGS+=("debug")
+                ;;
+            --ignore-fwupd)
+                BOOTSTRAP_FLAGS+=("ignore-fwupd")
+                ;;
+            *)
+                # ignore unrecognized flags
+                ;;
+        esac
+        shift
+    done
+}
+
+has_flag() {
+    local flag="$1"
+    for f in "${BOOTSTRAP_FLAGS[@]}"; do
+        [[ "$f" == "$flag" ]] && return 0
+    done
+    return 1
+}
+
+# Parse flags from command line
+parse_flags "$@"
 
 print_msg() {
     local level="INFO"
