@@ -33,3 +33,6 @@ fontawesome-fonts-all
 google-roboto-fonts
 google-noto-sans-fonts
 google-noto-serif-fonts
+
+# libs
+fuse-libs
