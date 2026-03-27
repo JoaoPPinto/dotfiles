@@ -8,3 +8,4 @@ It is recommended to start sway with the `start-sway` script
 `session/start-sway` should be placed in `/usr/bin/`
 `session/sway.desktop` should be placed in `/usr/share/wayland-sessions/`
 `session/environment` should be placed in `/etc/sway/`
+`session/sway-xdg-autostart.target` should be placed in `/usr/lib/systemd/user/`
