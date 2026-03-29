@@ -11,10 +11,8 @@ set $up k
 set $right l
 # Recommends: foot
 set $term foot
-# Recommends: rofi-wayland
-set $rofi_cmd rofi \
-        -terminal '$term'
-set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
+# Recommends: wofi
+set $menu wofi --show drun,run
 
 ### Key bindings
 #
