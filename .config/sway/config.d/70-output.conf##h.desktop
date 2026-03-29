@@ -1,2 +1,2 @@
-output "LG Electronics LG ULTRAGEAR 012NTEP9F036" mode 2560x1440@59.951Hz position 1440,360 adaptive_sync on
+output "LG Electronics LG ULTRAGEAR 012NTEP9F036" mode 2560x1440@143.973Hz position 1440,360 adaptive_sync on allow_tearing on
 output "Dell Inc. DELL S2721DS 7HRKQ43" mode 2560x1440@59.951Hz position 0,0 transform 270

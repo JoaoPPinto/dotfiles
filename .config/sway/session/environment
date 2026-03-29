@@ -6,7 +6,7 @@
 
 ## Pass extra arguments to the /usr/bin/sway executable
 
-SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --unsupported-gpu -D noscanout"
+SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --unsupported-gpu"
 #SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --debug"
 
 ## Set environment variables

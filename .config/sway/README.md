@@ -9,3 +9,14 @@ It is recommended to start sway with the `start-sway` script
 `session/sway.desktop` should be placed in `/usr/share/wayland-sessions/`
 `session/environment` should be placed in `/etc/sway/`
 `session/sway-xdg-autostart.target` should be placed in `/usr/lib/systemd/user/`
+
+Relies on the following being installed:
+- grimshot
+- brightnessctl >= 0.5.1
+- playerctl
+- swaylock
+- swayidle
+- pulseaudio-utils
+- waybar
+- lxqt-policykit
+- xdg-user-dirs
