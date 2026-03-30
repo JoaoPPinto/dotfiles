@@ -1,0 +1,17 @@
+default-timeout=15000
+border-color=#d79921
+group-by=app-name,urgency
+
+[urgency=low]
+background-color=#3c3836
+text-color=#665c54
+
+[urgency=normal]
+background-color=#504945
+text-color=#d5c4a1
+
+[urgency=high]
+background-color=#fb4934
+text-color=#ebdbb2
+border-color=#cc241d
+default-timeout=0
