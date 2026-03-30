@@ -5,7 +5,7 @@
 {% if yadm.hostname == "desktop" %}
     "output": "DP-3",
 {% else %}
-    "output": ["eDP-1", "DP-5"]
+    "output": ["eDP-1", "DP-5"],
 {% endif %}
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
