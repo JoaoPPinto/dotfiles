@@ -12,7 +12,7 @@ set $right l
 # Recommends: foot
 set $term foot
 # Recommends: wofi
-set $menu wofi --show drun,run
+set $menu rofi --show drun
 
 ### Key bindings
 #
@@ -135,5 +135,11 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
+# include sway-systemd config files
+include /etc/sway/config.d/10-systemd-cgroups.conf
+include /etc/sway/config.d/10-systemd-session.conf
+# comment this and manually set kb config if issues with kb layout are detected
+include /etc/sway/config.d/95-system-keyboard-config.conf
+include /etc/sway/config.d/95-xdg-desktop-autostart.conf
+# include all remaining config files in config.d
 include "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf

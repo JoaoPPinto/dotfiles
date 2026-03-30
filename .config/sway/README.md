@@ -7,15 +7,18 @@ It is recommended to start sway with the `start-sway` script
 `session/start-sway` should be placed in `/usr/bin/`
 `session/sway.desktop` should be placed in `/usr/share/wayland-sessions/`
 `session/environment` should be placed in `/etc/sway/`
-`session/sway-xdg-autostart.target` should be placed in `/usr/lib/systemd/user/`
 
 Relies on the following being installed:
-- grimshot
-- brightnessctl >= 0.5.1
-- playerctl
-- swaylock
-- swayidle
-- pulseaudio-utils
+- sway utilities (swaybg, swaylock, swayidle)
+- sway-contrib and sway-systemd (on fedora and arch)
 - waybar
+- rofi
+- foot
+- brightnessctl >= 0.5.1
+- libpulse (for pactl used in libexec/sway/volume-helper)
+- libnotify (for notify-send)
+- playerctl
 - lxqt-policykit
 - xdg-user-dirs
+- xdg-desktop-portal-wlr
+- xorg-xwayland
