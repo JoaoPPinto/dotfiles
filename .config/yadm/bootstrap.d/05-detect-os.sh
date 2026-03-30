@@ -64,6 +64,9 @@ if [[ "$BOOTSTRAP_PLATFORM" == "linux" ]]; then
         debian)
             BOOTSTRAP_OS="debian"
             ;;
+    	cachyos)    
+	    BOOTSTRAP_OS="cachyos"
+	    ;;
         *)
             abort "Unsupported Linux distribution: ${ID:-unknown}"
             ;;
