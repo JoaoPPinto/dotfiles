@@ -5,4 +5,10 @@
 #
 # Requires: lxqt-policykit
 
+{% if yadm.distro == "fedora" %}
 exec /usr/libexec/lxqt-policykit-agent
+{% endif %}
+{% if yadm.distro_family == "arch" %}
+exec /usr/sbin/lxqt-policykit-agent
+{% endif %}
+
