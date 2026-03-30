@@ -11,7 +11,7 @@ set $right l
 # Recommends: foot
 set $term foot
 # Recommends: rofi
-set $menu rofi --show drun
+set $menu rofi -show drun
 
 # include sway-systemd config files
 include /etc/sway/config.d/10-systemd-cgroups.conf
