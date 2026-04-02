@@ -415,6 +415,7 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.autopairs',
 	require("kickstart.plugins.neo-tree"),
 	-- require 'kickstart.plugins.gitsigns',
+	require("custom.plugins.orgmode"),
 }, {
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {
