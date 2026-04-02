@@ -253,6 +253,7 @@ require("lazy").setup({
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			local servers = {
 				ansiblels = {},
+				terraformls = {},
 			}
 
 			local ensure_installed = vim.tbl_keys(servers or {})
@@ -260,6 +261,7 @@ require("lazy").setup({
 				"lua-language-server",
 				"stylua",
 				"ansible-lint",
+				"tflint",
 			})
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
