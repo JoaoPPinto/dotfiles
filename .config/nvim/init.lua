@@ -62,9 +62,16 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	callback = function(args)
 		local filepath = vim.fs.normalize(args.file)
 		local subdir_patterns = {
-			"/roles/", "/tasks/", "/handlers/", "/templates/",
-			"/vars/", "/defaults/", "/meta/",
-			"/group_vars/", "/host_vars/", "/inventories/",
+			"/roles/",
+			"/tasks/",
+			"/handlers/",
+			"/templates/",
+			"/vars/",
+			"/defaults/",
+			"/meta/",
+			"/group_vars/",
+			"/host_vars/",
+			"/inventories/",
 		}
 		for _, pattern in ipairs(subdir_patterns) do
 			if filepath:find(pattern) then
@@ -170,11 +177,31 @@ require("lazy").setup({
 				callback = function(event)
 					local buf = event.buf
 					vim.keymap.set("n", "grr", builtin.lsp_references, { buffer = buf, desc = "[G]oto [R]eferences" })
-					vim.keymap.set("n", "gri", builtin.lsp_implementations, { buffer = buf, desc = "[G]oto [I]mplementation" })
+					vim.keymap.set(
+						"n",
+						"gri",
+						builtin.lsp_implementations,
+						{ buffer = buf, desc = "[G]oto [I]mplementation" }
+					)
 					vim.keymap.set("n", "grd", builtin.lsp_definitions, { buffer = buf, desc = "[G]oto [D]efinition" })
-					vim.keymap.set("n", "gO", builtin.lsp_document_symbols, { buffer = buf, desc = "Open Document Symbols" })
-					vim.keymap.set("n", "gW", builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = "Open Workspace Symbols" })
-					vim.keymap.set("n", "grt", builtin.lsp_type_definitions, { buffer = buf, desc = "[G]oto [T]ype Definition" })
+					vim.keymap.set(
+						"n",
+						"gO",
+						builtin.lsp_document_symbols,
+						{ buffer = buf, desc = "Open Document Symbols" }
+					)
+					vim.keymap.set(
+						"n",
+						"gW",
+						builtin.lsp_dynamic_workspace_symbols,
+						{ buffer = buf, desc = "Open Workspace Symbols" }
+					)
+					vim.keymap.set(
+						"n",
+						"grt",
+						builtin.lsp_type_definitions,
+						{ buffer = buf, desc = "[G]oto [T]ype Definition" }
+					)
 				end,
 			})
 
@@ -396,15 +423,24 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
 			local filetypes = {
-				"bash", "c", "diff", "html", "lua", "luadoc",
-				"markdown", "markdown_inline", "query", "vim", "vimdoc", "yaml",
+				"bash",
+				"c",
+				"diff",
+				"html",
+				"lua",
+				"luadoc",
+				"markdown",
+				"markdown_inline",
+				"query",
+				"vim",
+				"vimdoc",
+				"yaml",
 			}
-			require("nvim-treesitter").install(filetypes)
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = filetypes,
-				callback = function()
-					vim.treesitter.start()
-				end,
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = filetypes,
+				highlight = {
+					enable = true,
+				},
 			})
 		end,
 	},
@@ -419,9 +455,19 @@ require("lazy").setup({
 }, {
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘", config = "🛠", event = "📅", ft = "📂", init = "⚙",
-			keys = "🗝", plugin = "🔌", runtime = "💻", require = "🌙",
-			source = "📄", start = "🚀", task = "📌", lazy = "💤 ",
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			require = "🌙",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
 		},
 	},
 })
