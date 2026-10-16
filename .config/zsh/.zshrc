@@ -2,9 +2,9 @@
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
 
-#fpath+=(${ZDOTDIR}/plugins/pure)
-#autoload -U promptinit; promptinit
-#prompt pure
+fpath+=(${ZDOTDIR}/plugins/pure)
+autoload -U promptinit; promptinit
+prompt pure
 
 # Completion
 zstyle ':completion:*' menu select
@@ -77,4 +77,4 @@ if [ -f ${ZDOTDIR}/.aliases ]; then
 	. ${ZDOTDIR}/.aliases
 fi
 
-#source ${ZDOTDIR}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${ZDOTDIR}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
