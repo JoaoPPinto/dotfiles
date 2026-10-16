@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# ~/.config/yadm/bootstrap
+# Safe to re-run: every step is idempotent.
+set -euo pipefail
+
+log()   { printf '==> %s\n' "$*" >&2; }
+warn()  { printf 'WARN: %s\n' "$*" >&2; }
+abort() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+
+require_sudo() {
+    if ! sudo -n true 2>/dev/null; then
+        log "Requesting sudo access"
+        sudo -v
+    fi
+}
+
+# --- Package lists -----------------------------------------------------------
+# One array per distro family. Keep them in sync by hand; the only intended
+# difference is package naming (fd-find installs the `fd` binary on Fedora).
+fedora_packages=(
+    zsh git less        # shell
+    neovim              # editor
+    bat ripgrep fd-find # cli tools
+    foot                # desktop
+)
+
+arch_packages=(
+    zsh git less
+    neovim
+    bat ripgrep fd
+    foot
+)
+
+# --- Detect distro -----------------------------------------------------------
+[[ -r /etc/os-release ]] || abort "/etc/os-release not found"
+. /etc/os-release
+
+# ID_LIKE lets derivatives (CachyOS, EndeavourOS, Nobara, ...) match their parent.
+case " ${ID} ${ID_LIKE:-} " in
+    *" fedora "*) family=fedora ;;
+    *" arch "*)   family=arch ;;
+    *)            abort "Unsupported distro: ${ID}. Add a case for it in this script." ;;
+esac
+
+# --- Packages ----------------------------------------------------------------
+require_sudo
+log "Installing packages for ${ID} (${family})"
+case "$family" in
+    fedora) sudo dnf install -y "${fedora_packages[@]}" ;;
+    arch)   sudo pacman -S --needed --noconfirm "${arch_packages[@]}" ;;
+esac
+
+# --- Plugin submodules -------------------------------------------------------
+log "Fetching submodules"
+yadm submodule update --init --recursive
+
+# --- Directories zsh expects but will not create -----------------------------
+log "Creating zsh cache and data directories"
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" \
+         "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+
+# --- Default shell -----------------------------------------------------------
+zsh_path="$(command -v zsh)"
+if [[ "${SHELL:-}" != "$zsh_path" ]]; then
+    log "Setting default shell to zsh (may prompt for your password)"
+    chsh -s "$zsh_path" || warn "chsh failed; run it manually: chsh -s $zsh_path"
+fi
+
+log "Done. Log out and back in for the shell change to take effect."
