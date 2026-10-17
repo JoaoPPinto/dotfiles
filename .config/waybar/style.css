@@ -1,0 +1,107 @@
+@define-color base  #282828;
+@define-color overlay0 #3c3836;
+@define-color fg   #ebdbb2;
+@define-color gray #928374;
+
+@define-color red #fb4934;
+@define-color orange #d65d0e;
+@define-color yellow #fabd2f;
+@define-color blue #83a598;
+
+* {
+    border: none;
+    border-radius: 0;
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: Roboto, "Font Awesome 6 Free", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @base;
+    color: @fg;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+#workspaces {
+        background-color: @overlay0;
+	margin: 3px;
+	margin-left: 10px;
+	border-radius: 5px;
+}
+
+#workspaces button {
+    padding: 3px 10px;
+    color: @fg;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background-color: @gray;
+    color: @overlay0;
+    /*box-shadow: inherit;*/
+    border-radius: 5px;
+}
+
+#workspaces button.focused {
+    background-color: @fg;
+    color: @overlay0;
+    border-radius: 5px;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+}
+
+
+#mode {
+    background-color: @fg;
+    color: @overlay0;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 3px;
+}
+
+.modules-center > widget > * {
+    color: @yellow;
+    font-size: 14px;
+}
+
+.modules-right > widget > * {
+  padding: 0 10px;
+  margin: 3px 0px;
+  color: @yellow;
+  background-color: @overlay0;
+}
+
+.modules-right > widget:first-child > * {
+  border-radius: 5px 0 0 5px;
+}
+
+.modules-right > widget:last-child > * {
+  border-radius: 0 5px 5px 0;
+  margin-right: 10px;
+}
+
+
+#battery.warning:not(.charging) {
+    background-color: @orange;
+    color: @overlay0;
+}
+
+@keyframes blink {
+    to {
+        background-color: @red;
+    }
+}
+
+#battery.critical:not(.charging) {
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
