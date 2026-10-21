@@ -1,0 +1,26 @@
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+# Logo key
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $menu rofi -show drun
+
+# include sway-systemd config files
+include /etc/sway/config.d/10-systemd-cgroups.conf
+include /etc/sway/config.d/10-systemd-session.conf
+{% if yadm.distro == "fedora" %}
+# Fedora specific path
+include /usr/share/sway-systemd/95-xdg-desktop-autostart.conf
+{% endif %}
+{% if yadm.distro_family == "arch" %}
+# Arch-like specific path
+include /etc/sway/config.d/95-xdg-desktop-autostart.conf
+{% endif %}
+# include all remaining config files in config.d
+include "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf"
