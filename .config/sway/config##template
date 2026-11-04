@@ -14,7 +14,7 @@ set $menu rofi -show drun
 # include sway-systemd config files
 include /etc/sway/config.d/10-systemd-cgroups.conf
 include /etc/sway/config.d/10-systemd-session.conf
-{% if yadm.distro == "fedora" %}
+{% if yadm.distro_family == "fedora" %}
 # Fedora specific path
 include /usr/share/sway-systemd/95-xdg-desktop-autostart.conf
 {% endif %}

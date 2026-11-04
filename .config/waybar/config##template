@@ -6,12 +6,10 @@
     "height": 25, // Waybar height (to be removed for auto height)
 {% if yadm.class == "desktop" %}
     "output": "DP-3",
-{% else %}
-    "output": ["eDP-1", "DP-5"],
 {% endif %}
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-{% if yadm.hostname == "desktop" %}
+{% if yadm.class == "desktop" %}
     "modules-right": ["idle_inhibitor", "cpu", "memory", "pulseaudio", "tray"],
 {% else %}
     "modules-right": ["idle_inhibitor", "cpu", "memory", "pulseaudio", "battery", "tray"],

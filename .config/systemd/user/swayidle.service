@@ -8,3 +8,9 @@ Requisite=graphical-session.target
 [Service]
 ExecStart=/usr/bin/swayidle -w
 Restart=on-failure
+
+# PartOf only ties this unit to the session's lifetime; what actually starts it
+# is the .wants symlink `systemctl --user enable` creates, which pulls the unit
+# into graphical-session.target. sway-session.target binds to that target.
+[Install]
+WantedBy=graphical-session.target
