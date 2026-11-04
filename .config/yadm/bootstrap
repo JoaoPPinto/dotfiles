@@ -1,69 +1,48 @@
 #!/usr/bin/env bash
 # ~/.config/yadm/bootstrap
-# Safe to re-run: every step is idempotent.
+#
+# Runs every executable file in bootstrap.d/ in sorted order.
+# A step is disabled by clearing its executable bit:
+#
+#     chmod -x ~/.config/yadm/bootstrap.d/30-packages-desktop
+#
+# every step should be idempotent.
 set -euo pipefail
 
-log()   { printf '==> %s\n' "$*" >&2; }
-warn()  { printf 'WARN: %s\n' "$*" >&2; }
-abort() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+bootstrap_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-require_sudo() {
-    if ! sudo -n true 2>/dev/null; then
-        log "Requesting sudo access"
-        sudo -v
-    fi
+export BOOTSTRAP_LIB="${bootstrap_dir}/bootstrap.lib.sh"
+[[ -r "$BOOTSTRAP_LIB" ]] || {
+    printf 'ERROR: %s\n' "library not found: ${BOOTSTRAP_LIB}" >&2
+    exit 1
 }
+. "$BOOTSTRAP_LIB"
 
-# --- Package lists -----------------------------------------------------------
-# One array per distro family. Keep them in sync by hand; the only intended
-# difference is package naming (fd-find installs the `fd` binary on Fedora).
-fedora_packages=(
-    zsh git less        # shell
-    neovim              # editor
-    bat ripgrep fd-find # cli tools
-    foot                # desktop
-)
+steps_dir="${bootstrap_dir}/bootstrap.d"
+[[ -d "$steps_dir" ]] || abort "no steps directory: ${steps_dir}"
 
-arch_packages=(
-    zsh git less
-    neovim
-    bat ripgrep fd
-    foot
-)
+detect_distro
+detect_classes
+export BOOTSTRAP_DISTRO BOOTSTRAP_DISTRO_FAMILY BOOTSTRAP_HOSTNAME BOOTSTRAP_CLASSES
 
-# --- Detect distro -----------------------------------------------------------
-[[ -r /etc/os-release ]] || abort "/etc/os-release not found"
-. /etc/os-release
-
-# ID_LIKE lets derivatives (CachyOS, EndeavourOS, Nobara, ...) match their parent.
-case " ${ID} ${ID_LIKE:-} " in
-    *" fedora "*) family=fedora ;;
-    *" arch "*)   family=arch ;;
-    *)            abort "Unsupported distro: ${ID}. Add a case for it in this script." ;;
-esac
-
-# --- Packages ----------------------------------------------------------------
 require_sudo
-log "Installing packages for ${ID} (${family})"
-case "$family" in
-    fedora) sudo dnf install -y "${fedora_packages[@]}" ;;
-    arch)   sudo pacman -S --needed --noconfirm "${arch_packages[@]}" ;;
-esac
 
-# --- Plugin submodules -------------------------------------------------------
-log "Fetching submodules"
-yadm submodule update --init --recursive
+shopt -s nullglob
+steps=("$steps_dir"/*)
+shopt -u nullglob
+(( ${#steps[@]} )) || abort "no steps found in ${steps_dir}"
 
-# --- Directories zsh expects but will not create -----------------------------
-log "Creating zsh cache and data directories"
-mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" \
-         "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+for step in "${steps[@]}"; do
+    name="$(basename "$step")"
 
-# --- Default shell -----------------------------------------------------------
-zsh_path="$(command -v zsh)"
-if [[ "${SHELL:-}" != "$zsh_path" ]]; then
-    log "Setting default shell to zsh (may prompt for your password)"
-    chsh -s "$zsh_path" || warn "chsh failed; run it manually: chsh -s $zsh_path"
-fi
+    [[ -f "$step" ]] || continue
+    if [[ ! -x "$step" ]]; then
+        log "Skipping ${name} (disabled)"
+        continue
+    fi
 
-log "Done. Log out and back in for the shell change to take effect."
+    log "Running ${name}"
+    "$step" || abort "step failed: ${name}"
+done
+
+log "Bootstrap finished"

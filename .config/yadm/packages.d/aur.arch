@@ -1,0 +1,3 @@
+# Packages not in the official Arch repositories. Installed with an AUR helper
+# when one is available, skipped with a warning otherwise.
+sway-systemd

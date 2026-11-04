@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Fetches the zsh plugin submodules into the work tree.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+# yadm clone only inits submodules when asked to (--recurse-submodules), so
+# this step is what makes them present on a plain clone. It also runs after a
+# `yadm upgrade`, which deinits submodules before rewriting the work tree.
+log "Initializing submodules"
+yadm submodule update --init --recursive

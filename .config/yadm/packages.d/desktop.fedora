@@ -1,0 +1,22 @@
+# Desktop stack, Fedora family. One package name per line.
+sway
+swaybg
+sway-systemd
+waybar
+mako
+rofi
+swayidle
+swaylock
+grimshot
+
+# brightness keys, media keys, terminal
+brightnessctl
+playerctl
+foot
+
+# notifications (notify-send)
+libnotify
+
+# pactl, used by the volume bindings and the waybar pulseaudio module.
+# The sound server itself is left to the OS default.
+pulseaudio-utils

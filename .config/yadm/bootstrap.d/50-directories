@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Creates the directories .config/zsh/.zshrc expects but does not create itself:
+#   $XDG_CACHE_HOME/zsh  - zcompdump, and the completion cache below it
+#   $XDG_DATA_HOME/zsh   - history file
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" \
+         "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"

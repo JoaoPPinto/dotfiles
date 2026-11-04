@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Confirms what this run will act on, then waits for a yes.
+#
+# Read-only: never sets classes or distro family, never renders templates.
+# Having no class is valid; the point is to show the facts before packages move.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+# Classes this repo's templates branch on, and the machine characteristic each
+# one is meant to describe.
+known_classes=(
+    'desktop|desktop machine: fixed monitors (waybar output, sway/config.d/70-output.conf##c.desktop)'
+    'nvidia|Nvidia GPU present (sway/environment##template pulls in environment.nvidia)'
+)
+
+classes="${BOOTSTRAP_CLASSES:-}"
+
+printf 'Distro:   %s (family: %s)\n' "${BOOTSTRAP_DISTRO:-?}" "${BOOTSTRAP_DISTRO_FAMILY:-?}" >&2
+printf 'Hostname: %s\n' "${BOOTSTRAP_HOSTNAME:-?}" >&2
+if [[ -n "$classes" ]]; then
+    printf 'Classes:  %s\n' "${classes//$'\n'/, }" >&2
+else
+    printf 'Classes:  (none)\n' >&2
+fi
+printf '\n' >&2
+
+log 'Classes this repo branches on:'
+for entry in "${known_classes[@]}"; do
+    printf '  %-8s %s\n' "${entry%%|*}" "${entry#*|}" >&2
+done
+
+unknown=()
+while IFS= read -r class; do
+    [[ -n "$class" ]] || continue
+    for entry in "${known_classes[@]}"; do
+        [[ "${entry%%|*}" == "$class" ]] && continue 2
+    done
+    unknown+=("$class")
+done <<< "$classes"
+
+if (( ${#unknown[@]} )); then
+    warn "not referenced by any tracked template: ${unknown[*]}"
+fi
+
+printf '\n' >&2
+if ! confirm 'Continue? [y/N] '; then
+    abort "declined; nothing was changed"
+fi

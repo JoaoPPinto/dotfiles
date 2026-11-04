@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Installs every package group for this distro family. Names live in
+# packages.d/<group>.<family>, one package per line.
+#
+# core and desktop are required: a missing list is an error.
+# aur.<family> is optional, present only where the distro has packages that its
+# own package manager cannot install.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+dir="$(packages_dir)"
+
+for group in core desktop; do
+    log "Package group: ${group}"
+    install_packages_from "${dir}/${group}.${BOOTSTRAP_DISTRO_FAMILY}"
+done
+
+aur_list="${dir}/aur.${BOOTSTRAP_DISTRO_FAMILY}"
+if [[ -r "$aur_list" ]]; then
+    log "Package group: aur"
+    install_aur_from "$aur_list"
+fi

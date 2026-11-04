@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Ensures RPM Fusion free and nonfree are installed and enabled, keyed to the
+# Fedora release actually running. A stale release package, which is what a
+# system upgrade usually leaves behind, is replaced.
+#
+# Nothing in packages.d currently needs RPM Fusion; this is here so that the
+# things which do (Nvidia drivers, codecs) work without a manual step.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+if [[ "${BOOTSTRAP_DISTRO_FAMILY:-}" != fedora ]]; then
+    log "not a Fedora family host (${BOOTSTRAP_DISTRO_FAMILY:-unset}); skipping"
+    exit 0
+fi
+
+# RPM Fusion's own documented way to name the release packages.
+release="$(rpm -E %fedora 2>/dev/null || true)"
+if [[ ! "$release" =~ ^[0-9]+$ ]]; then
+    abort "could not determine the Fedora release (rpm -E %fedora gave '${release}')"
+fi
+
+installed_repos=()
+for repo in free nonfree; do
+    pkg="rpmfusion-${repo}-release"
+    installed="$(rpm -q --qf '%{version}' "$pkg" 2>/dev/null || true)"
+
+    if [[ "$installed" == "$release" ]]; then
+        log "${pkg} ${installed} already installed"
+        installed_repos+=("rpmfusion-${repo}")
+        continue
+    fi
+
+    url="https://mirrors.rpmfusion.org/${repo}/fedora/${pkg}-${release}.noarch.rpm"
+    if [[ -n "$installed" ]]; then
+        log "Release mismatch: ${pkg} is ${installed}, running Fedora ${release}"
+    else
+        log "Installing RPM Fusion ${repo} for Fedora ${release}"
+    fi
+
+    sudo dnf install -y "$url"
+    installed_repos+=("rpmfusion-${repo}")
+done
+
+# dnf5 says `config-manager enable`; dnf4 said `config-manager --set-enabled`.
+enable_repo() {
+    local repo="$1"
+    sudo dnf config-manager enable "$repo" 2>/dev/null ||
+        sudo dnf config-manager --set-enabled "$repo"
+}
+
+# Installing a release package enables its repositories, but a repo disabled by
+# hand stays disabled, so verify rather than assume. The repo id is the first
+# column; rpmfusion-free-updates must not be mistaken for rpmfusion-free.
+enabled="$(dnf repolist --enabled 2>/dev/null || true)"
+for repo in "${installed_repos[@]}"; do
+    if printf '%s\n' "$enabled" | awk -v want="$repo" '$1 == want { found = 1 } END { exit !found }'; then
+        log "${repo} enabled"
+        continue
+    fi
+    log "Enabling ${repo}"
+    enable_repo "$repo"
+done

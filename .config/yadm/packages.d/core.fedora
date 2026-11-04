@@ -1,0 +1,12 @@
+# Core packages, Fedora family. One package name per line.
+# The config degrades gracefully without the optional ones.
+zsh
+git
+less
+neovim
+
+# optional: cat alias, grep replacement, find replacement
+bat
+ripgrep
+# installs the `fd` binary on Fedora
+fd-find

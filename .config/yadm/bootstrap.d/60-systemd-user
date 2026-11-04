@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Reloads the user manager so units tracked in this repo become visible, then
+# enables any that declare a target to pull them in.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+if ! has systemctl; then
+    warn "no systemctl; not enabling user units"
+    exit 0
+fi
+
+# show-environment only needs the user bus. is-system-running would also fail
+# on a running manager that has any failed unit, which is not our problem.
+if ! systemctl --user show-environment >/dev/null 2>&1; then
+    warn "no systemd user manager for this session; not enabling user units"
+    exit 0
+fi
+
+log "Reloading systemd user units"
+systemctl --user daemon-reload
+
+units_dir="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
+[[ -d "$units_dir" ]] || exit 0
+
+enabled=()
+skipped=()
+for unit in "$units_dir"/*.service "$units_dir"/*.socket; do
+    [[ -e "$unit" ]] || continue
+    name="$(basename "$unit")"
+
+    # A unit without an [Install] section cannot be enabled: it is meant to be
+    # pulled in by another unit, and systemctl rejects it.
+    if ! grep -qE '^[[:space:]]*(WantedBy|RequiredBy|Also|Alias)=' "$unit"; then
+        skipped+=("$name")
+        continue
+    fi
+
+    systemctl --user enable "$name"
+    enabled+=("$name")
+done
+
+if (( ${#enabled[@]} )); then
+    log "Enabled: ${enabled[*]}"
+fi
+if (( ${#skipped[@]} )); then
+    log "Not enableable (no [Install] target, pulled in by another unit): ${skipped[*]}"
+fi

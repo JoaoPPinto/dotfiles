@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Makes zsh the login shell, if it is not already.
+set -euo pipefail
+. "$BOOTSTRAP_LIB"
+
+zsh_path="$(command -v zsh || true)"
+if [[ -z "$zsh_path" ]]; then
+    warn "zsh not found; not changing the login shell"
+    exit 0
+fi
+
+# $SHELL is whatever this session was started with, so ask the password database
+# what is actually recorded; a session started before a previous bootstrap run
+# would otherwise look like nothing had been done.
+current="$(getent passwd "$(id -un)" | cut -d: -f7)"
+if [[ "$current" == "$zsh_path" ]]; then
+    exit 0
+fi
+
+# chsh refuses shells that are not listed in /etc/shells.
+if [[ -r /etc/shells ]] && ! grep -qxF "$zsh_path" /etc/shells; then
+    warn "$zsh_path is not listed in /etc/shells; add it before chsh will accept it"
+    exit 0
+fi
+
+log "Setting the login shell to $zsh_path"
+if chsh -s "$zsh_path"; then
+    log "Log out and back in for the shell change to take effect."
+else
+    warn "chsh failed; run it manually: chsh -s $zsh_path"
+fi
